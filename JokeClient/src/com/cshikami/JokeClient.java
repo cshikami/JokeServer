@@ -12,6 +12,8 @@ public class JokeClient {
     private static int ID = 0;
     private static int jokeNumber = 0;
     private static int proverbNumber = 0;
+    private static int port = 4545;
+    private static int jokeServerMode;
 
     public static String username;
 
@@ -30,7 +32,7 @@ public class JokeClient {
         username = input.nextLine(); //get username
 
         System.out.println("\n" + username + "'s Joke Client, 1.8\n"); //print out in client window
-        System.out.println("Using server: " + serverName + ", Port: 4545"); //print out in client window, serverName being either localhost or the string provided as argument by user
+        System.out.println("Server: " + serverName + ", Port: 4545\n"); //print out in client window, serverName being either localhost or the string provided as argument by user
 
 
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in)); //create object to read system input into BufferedReader
@@ -66,7 +68,7 @@ public class JokeClient {
 
         try {
             //new Socket object with serverName and port number arguments
-            sock = new Socket(serverName, 4545);
+            sock = new Socket(serverName, port);
 
             //Create filter I/O streams for the socket:
             fromServer = new BufferedReader(new InputStreamReader(sock.getInputStream())); //get input stream from server
@@ -92,6 +94,17 @@ public class JokeClient {
 
                 jokeNumber = fromServer.read();
                 proverbNumber = fromServer.read();
+
+                jokeServerMode = fromServer.read();
+
+                if (jokeNumber == 0 && jokeServerMode == 1) {
+
+                    System.out.println("JOKE CYCLE COMPLETED");
+                }
+
+                if (proverbNumber == 0 && jokeServerMode == 2) {
+                    System.out.println("PROVERB CYCLE COMPLETED");
+                }
 
             sock.close(); //close socket connection
         }

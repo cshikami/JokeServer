@@ -34,6 +34,7 @@ class Worker extends Thread { //Class definition, class Worker creates a thread
                 String username;
                 String  nextOutput;
                 int ID;
+                String jokeCycle = "Joke Cycle Completed";
 
 
                 username = in.readLine(); //get username from JokeClient
@@ -52,6 +53,7 @@ class Worker extends Thread { //Class definition, class Worker creates a thread
 
                 //get proverbNumber index from JokeClient
                 int proverbNumber = in.read();
+
 
                 if (JokeServer.serverState == JokeServer.ServerState.JOKEMODE) { //if serverState is in JOKEMODE
                     out.println(JokeServer.Jokes[jokeNumber].replaceAll("Placeholder", username)); //print out on client joke at index position jokeNumber, with username entered by user in JokeClient in place of Placeholder
@@ -76,9 +78,21 @@ class Worker extends Thread { //Class definition, class Worker creates a thread
                     Collections.shuffle(proverbsList);  //shuffle the proverbs in Proverbs list
                     JokeServer.Proverbs = proverbsList.toArray(new String[proverbsList.size()]);  //new Proverbs list that is shuffled
                 }
+
+                //if jokeNumber is 0
+//                if (updateJokeNumber == 0) {
+//                    out.println(jokeCycle);
+//                }
                 out.write(updateJokeNumber);     //update joke index position in client
                 out.write(updateProverbNumber);  //update proverb index position in client
 
+                if (JokeServer.serverState == JokeServer.ServerState.JOKEMODE) {
+                    out.write(1);
+                }
+
+                if (JokeServer.serverState == JokeServer.ServerState.PROVERBMODE) {
+                    out.write(2);
+                }
                 //print out in console username and ID of client
                 System.out.println("Received request from " + username + " with ID of " + ID + ".");
 
@@ -149,6 +163,7 @@ public class JokeServer {
     //Return next joke index position
     public static int nextJoke(int index) {
         if (index == JokeServer.Jokes.length - 1) //if jokeNumber is last joke index
+
             return 0; //return 0 for jokeNumber
         else
             return index += 1; //else, add 1 to jokeNumber
@@ -198,21 +213,19 @@ public class JokeServer {
     class AdminLooper implements Runnable {
         public static boolean adminControlSwitch = true;
 
-        public void run() { // RUNning the Admin listen loop
-            System.out.println("In the admin looper thread");
-
+        public void run() { // Running the Admin listen loop
             int q_len = 6; /* Number of requests for OpSys to queue */
             int port = 5050;  // We are listening at a different port for Admin clients
             Socket sock;
 
             try {
                 ServerSocket servsock = new ServerSocket(port, q_len);
-                while (adminControlSwitch) {
-                    // wait for the next ADMIN client connection:
+                while (adminControlSwitch) { //while true
+                    // wait for the next Admin Client connection:
                     sock = servsock.accept();
-                    new AdminWorker(sock).start();
+                    new AdminWorker(sock).start(); //start a new thread
                 }
-            } catch (IOException ioe) {
+            } catch (IOException ioe) { //catch exception
                 System.out.println(ioe);
             }
         }
