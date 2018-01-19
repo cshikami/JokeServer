@@ -51,10 +51,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
-import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -85,7 +83,6 @@ class Worker extends Thread { //Class definition, class Worker creates a thread
 
 
                 username = in.readLine(); //get username from JokeClient
-                //name = in.readLine();
 
                 ID = in.read(); //get ID from JokeClient
                 if (ID == 0) { //if ID from JokeClient is 0
@@ -126,10 +123,6 @@ class Worker extends Thread { //Class definition, class Worker creates a thread
                     JokeServer.Proverbs = proverbsList.toArray(new String[proverbsList.size()]);  //new Proverbs list that is shuffled
                 }
 
-                //if jokeNumber is 0
-//                if (updateJokeNumber == 0) {
-//                    out.println(jokeCycle);
-//                }
                 out.write(updateJokeNumber);     //update joke index position in client
                 out.write(updateProverbNumber);  //update proverb index position in client
 
@@ -153,28 +146,6 @@ class Worker extends Thread { //Class definition, class Worker creates a thread
         } catch (IOException ioe) {
             System.out.println(ioe); //print the exception if there is an IOException
         }
-    }
-
-    static void printRemoteAddress(String name, PrintStream out) {
-        try { //these are all printed in the client window
-            out.println("Looking up " + name + "..."); //print Looking up and the name supplied from the run() method
-            InetAddress machine = InetAddress.getByName(name);
-            out.println("Host name: " + machine.getHostName()); //print out in client window the host name
-            out.println("Host IP: " + toText(machine.getAddress())); //print out in client window the ip address formatted by the toText method
-        } catch (UnknownHostException ex) {
-            out.println("Failed in attempt to lookup " + name); //if host is not know/does not exist, print out Unknown host exception and the name attempted
-        }
-    }
-
-    //Not interesting to us:
-    static String toText(byte[] ip) {
-        StringBuffer result = new StringBuffer(); //new StringBuffer object named result
-        //format the ip address:
-        for (int i = 0; i < ip.length; ++i) {
-            if (i > 0) result.append(".");
-            result.append(0xff & ip[i]);
-        }
-        return result.toString(); //return StringBuffer object as string
     }
 }
 

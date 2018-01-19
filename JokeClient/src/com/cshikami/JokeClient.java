@@ -87,12 +87,9 @@ public class JokeClient {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in)); //create object to read system input into BufferedReader
 
         try {
-            //String username;
             String name;
 
             do {
-
-                //username = in.readLine();
                 System.out.print("Press enter to get something or q to quit : "); //print out to client window
                 System.out.flush(); //have to flush the output because we don't want a newline after previous printed print statement
 
