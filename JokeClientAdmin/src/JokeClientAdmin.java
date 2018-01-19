@@ -76,11 +76,11 @@ public class JokeClientAdmin
 
             do
             {
-                System.out.print("\n" + "Do you want to know the state of server? : ");
+                System.out.print("\n" + "Press enter to see state of server or q to quit: ");
                 name = in.readLine(); //read user input
-                if (name.indexOf("n") < 0) //if user input does not begin with n, call makeConnection method
+                if (name.indexOf("q") < 0) //if user input does not begin with n, call makeConnection method
                 makeConnection(serverName); //with serverName provided
-            } while(name.indexOf("n") < 0); //if user input starts with n (such as in no)...
+            } while(name.indexOf("q") < 0); //if user input starts with n (such as in no)...
             System.out.println("Cancelled by user request"); //print this out and exit
         }
         catch(IOException x)

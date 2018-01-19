@@ -80,7 +80,7 @@ public class JokeClient {
 
         username = input.nextLine(); //get username from client
 
-        System.out.println("\n" + username + "'s Joke Client, 1.8\n"); //print out in client window
+        System.out.println("\n" + username + "'s Joke Client, 1.9\n"); //print out in client window
         System.out.println("Server: " + serverName + ", Port: 4545\n"); //print out in client window, serverName being either localhost or the string provided as argument by user
 
 

@@ -151,10 +151,11 @@ class Worker extends Thread { //Class definition, class Worker creates a thread
 
 public class JokeServer {
 
-    public enum ServerState {
+    public enum ServerState { //the two server states
         JOKEMODE, PROVERBMODE
     }
 
+    //Jokes Array, Placeholder will be replaced by username
     public static String[] Jokes = {
             "JA Placeholder: What is an oyster's favorite tea? Pearl grey!",
             "JB Placeholder: Why did the chicken cross the road? To get to the other side.",
@@ -162,6 +163,7 @@ public class JokeServer {
             "JD Placeholder: What's it called when a King and Queen have no children? A receding heir line."
     };
 
+    //Proverbs Array, Placeholder will be replaced by username
     public static String[] Proverbs = {
             "PA Placeholder: Two wrongs don't make a right.",
             "PB Placeholder: The pen is mightier than the sword",
@@ -195,25 +197,26 @@ public class JokeServer {
             return index += 1; //else, add 1 to proverbNumber
     }
 
-    public static void ChangeState(int state) {
+    //Change server state based on what user enters in Admin Client
+    public static void changeState(int state) { //method to Change
 
         System.out.println("Received state command: " + state);
 
-        if (state == 1)
-            JokeServer.serverState = ServerState.JOKEMODE;
-        else if (state == 2)
-            JokeServer.serverState = ServerState.PROVERBMODE;
+        if (state == 1) //if 1 is selected
+            JokeServer.serverState = ServerState.JOKEMODE; //set state to JOKEMODE
+        else if (state == 2) //if 2 is selected
+            JokeServer.serverState = ServerState.PROVERBMODE; //set state to PROVERBMODE
 
-        System.out.println("    -- Server State is: " + JokeServer.serverState);
+        System.out.println("Server state: " + JokeServer.serverState);
     }
 
     public static void main(String[] args) throws IOException {
         int q_len = 6; /* Not interesting. Number of requests for OpSys to queue */
         int port = 4545; //port number
 
-        AdminLooper AL = new AdminLooper(); // create a DIFFERENT thread
+        AdminLooper AL = new AdminLooper(); // create Admin thread
         Thread t = new Thread(AL);
-        t.start();  // ...and start it, waiting for administration input
+        t.start();  //start it and wait for admin client input
 
         Socket sock;
 
@@ -231,9 +234,9 @@ public class JokeServer {
     class AdminLooper implements Runnable {
         public static boolean adminControlSwitch = true;
 
-        public void run() { // Running the Admin listen loop
-            int q_len = 6; /* Number of requests for OpSys to queue */
-            int port = 5050;  // We are listening at a different port for Admin clients
+        public void run() { // Run the Admin listen loop
+            int q_len = 6; // Number of requests for OpSys to queue
+            int port = 5050;  //Listening at a different port for Admin clients
             Socket sock;
 
             try {
@@ -273,11 +276,11 @@ public class JokeServer {
                 //Send the state of the server
                 out.println(JokeServer.serverState);
 
-                //Retrieve the command number from the client
-                int command = in.read();
+                //Get the number of the mode from the client
+                int modeNumber = in.read();
 
                 //Change state
-                JokeServer.ChangeState(command);
+                JokeServer.changeState(modeNumber);
 
                 this.sock.close();
             }
