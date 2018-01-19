@@ -1,3 +1,53 @@
+/*--------------------------------------------------------
+
+1. Christopher Shikami  1/18/2018
+
+2. java version "9"
+Java(TM) SE Runtime Environment (build 9+181)
+Java HotSpot(TM) 64-Bit Server VM (build 9+181, mixed mode)
+
+3. Precise command-line compilation examples / instructions:
+> javac JokeClientAdmin.java
+
+4. Precise examples / instructions to run this program:
+
+e.g.:
+
+In separate shell windows:
+
+> java JokeServer
+> java JokeClient
+> java JokeClientAdmin
+
+All acceptable commands are displayed on the various consoles.
+
+This runs across machines, in which case you have to pass the IP address of
+the server to the clients. For exmaple, if the server is running at
+140.192.1.22 then you would type:
+
+> java JokeClient 140.192.1.22
+> java JokeClientAdmin 140.192.1.22
+
+5. List of files needed for running the program.
+
+ a. checklist.html
+ b. JokeServer.java
+ c. JokeClient.java
+ d. JokeClientAdmin.java
+
+5. Notes:
+
+In running the program, there is a slight bug in which the jokeNumber or proverbNumber leaves off where
+the other ended.
+
+For example, if we are on jokeNumber of index 2 on one client and we open another client connection and
+switch modes to PROVERBMODE, we will get back a proverb of index 3 instead of 1.
+
+The cycle will complete, however, and the randomization works as it should otherwise.
+
+----------------------------------------------------------*/
+
+
 import java.io.*;
 import java.net.*;
 
